@@ -2,6 +2,7 @@
 Script de test pour récupérer les données de la base mariadb
 '''
 import os
+import functools
 from sqlalchemy import create_engine
 from dotenv import load_dotenv
 from langchain_community.document_loaders.sql_database import SQLDatabaseLoader
@@ -20,12 +21,23 @@ engine = create_engine(
 )
 db = SQLDatabase(engine)
 
+row_to_content = functools.partial(
+    SQLDatabaseLoader.page_content_default_mapper, column_names=["Description"]
+)
+
+row_to_metadata = functools.partial(
+    SQLDatabaseLoader.metadata_default_mapper, column_names=["Title", "Type", "Status", "Resolution", "Last_Updated"]
+)
+
 loader = SQLDatabaseLoader(
-    "SELECT Title, Description FROM Issue LIMIT 2",
-    db
+    "SELECT * FROM Issue LIMIT 2",
+    db,
+    page_content_mapper=row_to_content,
+    metadata_mapper=row_to_metadata,
 )
 
 documents = loader.load()
 
 for doc in documents:
-    print(doc)
+    print(doc.page_content)
+    print(doc.metadata)
