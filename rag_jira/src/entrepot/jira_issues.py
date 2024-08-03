@@ -6,6 +6,7 @@ from dataclasses import dataclass
 from datetime import date
 from enum import Enum
 from typing import List, Optional
+from langchain_core.documents import Document
 
 class Type(Enum):
     """Classe représentant le type d'une issue Jira"""
@@ -45,11 +46,30 @@ class IssueJira:
     last_updated: date
     comment: str
 
+    def transforme_en_document_langchain(self) -> Document:
+        """Transforme une issue en document langchain"""
+        return Document(
+            page_content = self.description,
+            metadata = {
+                "id": self.id,
+                "title": self.title,
+                "type": self.type,
+                "status": self.status,
+                "resolution": self.resolution,
+                "last_updated": self.last_updated,
+                "comment": self.comment
+            }
+        )
+
 class EntrepotIssuesJira:
     """Classe représentant l'entrepôt des issues Jira"""
 
     def __init__(self):
         self.issues : List[IssueJira] = []
+
+    def obtenir_toutes_les_issues(self) -> List[IssueJira]:
+        """Retourne toutes les issues"""
+        return self.issues
 
     def ajouter_issue(self, issue: IssueJira):
         """Ajoute une issue à l'entrepôt"""

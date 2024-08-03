@@ -5,6 +5,8 @@ import streamlit as st
 from hugchat import hugchat
 from hugchat.login import Login
 
+from service.indexation import ServiceIndexation
+
 # Titre de l'application
 st.set_page_config(page_title="JiraBot 💬🤖")
 
@@ -24,13 +26,20 @@ with st.sidebar:
         '[blog](https://blog.streamlit.io/how-to-build-an-llm-powered-chatbot-with-streamlit/)!'
     )
 
+## Indexation
+service_indexation = ServiceIndexation()
+entrepot_issues = service_indexation.collecter_les_issues("xp/jira_issues.csv")
+entrepot_embeddings = service_indexation.stocker_les_documents_dans_vector_store(entrepot_issues)
 
-# Store LLM generated responses
+entrepot_embeddings.recherche_embeddings()
+
+## Historique des messages
 if "messages" not in st.session_state.keys():
     st.session_state.messages = [
         {"role": "assistant", "content": "Comment puis-je vous aider aujourd'hui ?"}
     ]
 
+## Connexion Hugging Face
 if (hf_email == '' or hf_password == ''):
     st.warning("Veuillez saisir vos données d'identification Hugging Face 🤗 !", icon='⚠️')
 else:
