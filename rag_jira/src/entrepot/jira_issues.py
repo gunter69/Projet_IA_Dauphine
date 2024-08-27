@@ -53,9 +53,9 @@ class IssueJira:
             metadata = {
                 "id": self.id,
                 "title": self.title,
-                "type": self.type,
-                "status": self.status,
-                "resolution": self.resolution,
+                "type": self.type.value,
+                "status": self.status.value,
+                "resolution": self.resolution.value,
                 "last_updated": self.last_updated,
                 "comment": self.comment
             }

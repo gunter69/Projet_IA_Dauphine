@@ -4,3 +4,4 @@
 .ipynb*
 *.csv
 secrets.toml
+__pycache__

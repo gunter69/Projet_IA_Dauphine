@@ -1,11 +1,27 @@
 """
 Fichier pour configurer et lancer l'application streamlit
 """
+import os
 import streamlit as st
-from hugchat import hugchat
-from hugchat.login import Login
+from dotenv import load_dotenv
+# from hugchat import hugchat
+# from hugchat.login import Login
+from langchain_core.prompts import PromptTemplate
+from langchain_community.llms.huggingface_endpoint import HuggingFaceEndpoint
 
 from service.indexation import ServiceIndexation
+
+load_dotenv()
+
+HUGGINGFACEHUB_API_TOKEN = os.getenv("HUGGINGFACEHUB_API_TOKEN")
+
+MODEL = "mistralai/Mistral-7B-Instruct-v0.2"
+llm = HuggingFaceEndpoint(
+    repo_id=MODEL,
+    max_length=128,
+    temperature=0.5,
+    huggingfacehub_api_token=HUGGINGFACEHUB_API_TOKEN,
+)
 
 # Titre de l'application
 st.set_page_config(page_title="JiraBot 💬🤖")
@@ -28,10 +44,8 @@ with st.sidebar:
 
 ## Indexation
 service_indexation = ServiceIndexation()
-entrepot_issues = service_indexation.collecter_les_issues("xp/jira_issues.csv")
+entrepot_issues = service_indexation.collecter_les_issues("xp/jira_issues_2.csv")
 entrepot_embeddings = service_indexation.stocker_les_documents_dans_vector_store(entrepot_issues)
-
-entrepot_embeddings.recherche_embeddings()
 
 ## Historique des messages
 if "messages" not in st.session_state.keys():
@@ -49,27 +63,17 @@ else:
             st.write(message["content"])
 
 # Function for generating LLM response
-def generate_response(prompt_input, email, passwd):
+def generate_response(prompt_input, context):
     """
     Génère une réponse à partir d'un prompt utilisateur en utilisant un modèle de langage.
-
-    Cette fonction se connecte à Hugging Face avec les identifiants fournis,
-    crée un chatbot et génère une réponse basée sur le prompt utilisateur.
-
-    Args:
-        prompt_input (str): Le message ou la question de l'utilisateur.
-        email (str): L'adresse e-mail pour se connecter à Hugging Face.
-        passwd (str): Le mot de passe pour se connecter à Hugging Face.
-
-    Returns:
-        str: La réponse générée par le chatbot.
     """
-    # Hugging Face Login
-    sign = Login(email, passwd)
-    cookies = sign.login()
-    # Create ChatBot
-    chatbot = hugchat.ChatBot(cookies=cookies.get_dict())
-    return chatbot.chat(prompt_input)
+    template = """Répond à la question suivante : {prompt_input} en t'aidant du contexte suivant : {context}"""
+    prompt_temp = PromptTemplate.from_template(template)
+    llm_chain = prompt_temp | llm
+    return llm_chain.invoke({
+            "prompt_input": prompt_input,
+            "context": context
+        })
 
 # User-provided prompt
 if prompt := st.chat_input(disabled=not (hf_email and hf_password)):
@@ -77,11 +81,22 @@ if prompt := st.chat_input(disabled=not (hf_email and hf_password)):
     with st.chat_message("user"):
         st.write(prompt)
 
+    documents = entrepot_embeddings.recherche_embeddings(prompt)
+
+    print(documents)
+
+    CONTEXTES = ""
+    for document in documents:
+        CONTEXTES += document.metadata["comment"]
+        CONTEXTES += "\n\n"
+
+    print("DEBUG", CONTEXTES)
+
 # Generate a new response if last message is not from assistant
 if st.session_state.messages[-1]["role"] != "assistant":
     with st.chat_message("assistant"):
         with st.spinner("Thinking..."):
-            response = generate_response(prompt, hf_email, hf_password)
+            response = generate_response(prompt, CONTEXTES)
             st.write(response)
     message = {"role": "assistant", "content": response}
     st.session_state.messages.append(message)

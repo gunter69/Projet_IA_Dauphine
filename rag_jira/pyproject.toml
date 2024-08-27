@@ -23,6 +23,10 @@ dependencies = [
     "streamlit==1.37.0",
     "hugchat==0.4.10",
     "langchain-chroma==0.1.2",
+    "pysqlite3-binary==0.5.3",
+    "torch==2.4.0",
+    "sentence-transformers==3.0.1",
+    "redis==5.0.8",
 ]
 
 [tool.setuptools.packages.find]
