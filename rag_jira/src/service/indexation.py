@@ -23,6 +23,7 @@ class ServiceIndexation:
     def collecter_les_issues(self, path: str) -> EntrepotIssuesJira:
         """Collecte les issues depuis un fichier csv
         et les stocke dans l'entrepôt des issues Jira"""
+        csv.field_size_limit(10**7)
         with open(path, "r", encoding="utf-8") as file:
             reader = csv.DictReader(file, delimiter=";")
             for row in reader:

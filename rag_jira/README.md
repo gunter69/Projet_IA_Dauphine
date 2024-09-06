@@ -9,6 +9,8 @@
     - [✅ Prérequis](#-prérequis)
     - [📦 Installation des dépendances](#-installation-des-dépendances)
   - [🚀 Utilisation](#-utilisation)
+    - [Analyse des tickets JIRA](#analyse-des-tickets-jira)
+    - [Questions pour la démo](#questions-pour-la-démo)
   - [📚 Liens utiles](#-liens-utiles)
 
 
@@ -19,6 +21,8 @@ Ce projet propose une application chatbot avec RAG pour l'analyse et la résolut
 Ce projet est basé sur le jeu de données [TAWOS](https://rdr.ucl.ac.uk/articles/dataset/The_TAWOS_dataset/21308124) ...
 
 Les tickets jira servant de base de connaissance ont été filtré pour ne récupérer que ceux pouvant servir à la résolution de problème.
+
+[TODO]
 
 ### 🧱 Structure du projet
 
@@ -111,6 +115,13 @@ L'application est disponible [ici](http://localhost:8501/).
 
 ## 🚀 Utilisation
 
+### Analyse des tickets JIRA
+
+Pour savoir quels tickets jira vont être indexés dans notre base Redis, nous avons fait une [analyse du jeu de données TAWOS](./xp/analyse.ipynb).
+
+[TODO]
+
+### Questions pour la démo
 ___
 I'm unable to successfully connect to the server and I get the following error message.
 ```java
