@@ -1,0 +1,49 @@
+[build-system]
+requires = ["setuptools>=41", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rag_jira"
+version = "0.1.0"
+requires-python = ">=3.7,<4.0"
+description = "Mise en place d'un RAG pour l'analyse de tickets JIRA"
+authors = [
+    { name="SARAZIN Antoine", email="antoine.sarazin@cgi.com" },
+    { name="VELU Hélène", email="helene.velu@cgi.com" },
+    { name="GIRAUD Marie", email="marie.giraud@cgi.com" }
+]
+readme = "README.md"
+dependencies = [
+    "python-dotenv==1.0.1",
+    "mysqlclient==2.2.4",
+    "SQLAlchemy==2.0.31",
+    "pandas==2.2.2",
+    "langchain-community==0.2.0",
+    "matplotlib==3.9.1",
+    "streamlit==1.37.0",
+    "hugchat==0.4.10",
+    "langchain-chroma==0.1.2",
+    "pysqlite3-binary==0.5.3",
+    "torch==2.4.0",
+    "sentence-transformers==3.0.1",
+    "redis==5.0.8",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+#[tool.setuptools.package-data]
+#"*" = ["*.yaml", "*.txt"]
+
+#[tool.setuptools]
+#include-package-data = true
+
+[project.optional-dependencies]
+dev = ["pytest"]
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -q"
+testpaths = ["tests"]
+log_cli=true
+log_level="DEBUG"

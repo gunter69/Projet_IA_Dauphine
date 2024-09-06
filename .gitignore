@@ -1,0 +1,7 @@
+.venv
+*.egg-info
+.env
+.ipynb*
+*.csv
+secrets.toml
+__pycache__

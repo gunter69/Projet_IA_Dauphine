@@ -1,0 +1,58 @@
+text:
+- name: id
+  no_index: false
+  no_stem: false
+  sortable: false
+  weight: 1
+  withsuffixtrie: false
+- name: title
+  no_index: false
+  no_stem: false
+  sortable: false
+  weight: 1
+  withsuffixtrie: false
+- name: comment
+  no_index: false
+  no_stem: false
+  sortable: false
+  weight: 1
+  withsuffixtrie: false
+- name: content
+  no_index: false
+  no_stem: false
+  sortable: false
+  weight: 1
+  withsuffixtrie: false
+- name: last_updated
+  no_index: false
+  no_stem: false
+  sortable: false
+  weight: 1
+  withsuffixtrie: false
+
+tag:
+- name: resolution
+  no_index: false
+  no_stem: false
+  sortable: false
+  weight: 1
+  withsuffixtrie: false
+- name: type
+  no_index: false
+  no_stem: false
+  sortable: false
+  weight: 1
+  withsuffixtrie: false
+- name: status
+  no_index: false
+  no_stem: false
+  sortable: false
+  weight: 1
+  withsuffixtrie: false
+
+vector:
+- algorithm: FLAT
+  datatype: FLOAT32
+  dims: 384
+  distance_metric: COSINE
+  name: content_vector
