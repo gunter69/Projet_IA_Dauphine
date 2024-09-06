@@ -61,5 +61,5 @@ class ServiceIndexation:
 if __name__ == "__main__":
     ## Indexation
     service_indexation = ServiceIndexation()
-    service_indexation.collecter_les_issues("xp/jira_issues_2.csv")
+    service_indexation.collecter_les_issues("xp/jira_issues.csv")
     service_indexation.stocker_les_documents_dans_vector_store()
