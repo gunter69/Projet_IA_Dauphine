@@ -9,7 +9,10 @@
     - [✅ Prérequis](#-prérequis)
     - [📦 Installation des dépendances](#-installation-des-dépendances)
   - [🚀 Utilisation](#-utilisation)
-    - [Analyse des tickets JIRA](#analyse-des-tickets-jira)
+    - [Filtrage des tickets JIRA](#filtrage-des-tickets-jira)
+      - [Type des issues](#type-des-issues)
+      - [Status des issues](#status-des-issues)
+      - [Resolution des issues](#resolution-des-issues)
     - [Questions pour la démo](#questions-pour-la-démo)
   - [📚 Liens utiles](#-liens-utiles)
 
@@ -18,16 +21,25 @@
 
 Ce projet propose une application chatbot avec RAG pour l'analyse et la résolution de tickets JIRA.
 
-Ce projet est basé sur le jeu de données [TAWOS](https://rdr.ucl.ac.uk/articles/dataset/The_TAWOS_dataset/21308124) ...
+Ce projet est basé sur le jeu de données [TAWOS](https://rdr.ucl.ac.uk/articles/dataset/The_TAWOS_dataset/21308124) (**T**awosi **A**gile **W**eb-based **O**penSource) datant d'ocotbre 2020.
+- Ce dataset regroupe des données provenant de 13 référentiels open source différents (Apache, Atlassian, MongoDB, Spring, ...).
+- Tous ces référentiels utilisent JIRA comme plateforme de gestion des problèmes.
+- 44 projets ont été selectionnés des ces référentiels.
+- Le dataset contient au total 508 963 issues contribuées par 208 811 utilisateurs.
 
-Les tickets jira servant de base de connaissance ont été filtré pour ne récupérer que ceux pouvant servir à la résolution de problème.
+L'ensemble de données est hébergé plubliquement sur GitHub sous la forme d'une base de données relationnelle.
 
-[TODO]
+![Schema TAWOS](./doc/img/TAWOS_schema.png)
+
+L'objectif de ce projet est de proposer un démonstrateur de RAG pour l'analyse et la résolution de tickets JIRA sur un projet spécifique.
+
+Les issues JIRA vont servir de base de connaissance pour le LLM qui va pouvoir analyser et répondre à un problème utilisateur en s'aidant de la résolution d'ancien tickets JIRA.
 
 ### 🧱 Structure du projet
 
 ```bash
 rag_jira
+├─ doc/img
 ├─ src
 │   ├─ entrepot                     # Package contenant tous les entrepots de données / modèles
 │   │    ├─ __init__.py
@@ -115,11 +127,46 @@ L'application est disponible [ici](http://localhost:8501/).
 
 ## 🚀 Utilisation
 
-### Analyse des tickets JIRA
+### Filtrage des tickets JIRA
 
-Pour savoir quels tickets jira vont être indexés dans notre base Redis, nous avons fait une [analyse du jeu de données TAWOS](./xp/analyse.ipynb).
+Nous allons nous concentrer sur un projet spécifique pour faire notre application de résolution d'issues. Les issues et les commentaires associés nous servirons de base de connaissance pour notre application.
 
-[TODO]
+![Tables utilisées pour le RAG](./doc/img/analyse_TAWOS.png)
+
+Informations sur le projet utilisé :
+- Référentiel : MongoDB
+- Projet : MongoDB Core Server
+- Language de programmation : C++
+- Nombre d'issues : 48 663
+- Project Key : SERVER
+- ID : 33
+- Description : MongoDB Enterprise Server est l'édition commerciale de MongoDB, disponible dans le cadre de l'abonnement MongoDB Enterprise Advanced.
+
+
+Pour savoir quels tickets jira vont être indexés dans notre base Redis, nous avons fait une [analyse du jeu de données TAWOS](./xp/analyse.ipynb). Les tickets jira qui serviront de base de connaissance pour notre RAG sont stockés dans un fichier csv.
+
+#### Type des issues
+
+![Types des issues](./xp/img/types_issues.png)
+
+Les types d'issues que nous conservons sont :
+- Bug
+- Question
+
+#### Status des issues
+
+![Status des issues](./xp/img/status_issues.png)
+
+Il n'y a que le status Closed pour les issues que nous conservons donc puisque cela signifie que les tickets ont été traités et résolus.
+
+#### Resolution des issues
+
+![Resolution des issues](./xp/img/resolution_issues.png)
+
+Les types de résolution que nous traîtons sont :
+- Fixed
+- Done
+- Community Answered
 
 ### Questions pour la démo
 ___
