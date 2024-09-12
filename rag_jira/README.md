@@ -13,6 +13,7 @@
       - [Type des issues](#type-des-issues)
       - [Status des issues](#status-des-issues)
       - [Resolution des issues](#resolution-des-issues)
+    - [RAG](#rag)
     - [Questions pour la démo](#questions-pour-la-démo)
   - [📚 Liens utiles](#-liens-utiles)
 
@@ -108,6 +109,7 @@ L'application est disponible [ici](http://localhost:8501/).
 - **Base de données :** SQL, Redis
 - **Outils :** DBeaver ou autre, Redis Insight
 - **Framework :** Langchain
+- **Modèles LLM :** Modèles disponibles sur [Hugging Face](https://huggingface.co/models)
 - [**Dépendances**](./pyproject.toml)
 
 ### 📦 Installation des dépendances
@@ -167,6 +169,10 @@ Les types de résolution que nous traîtons sont :
 - Fixed
 - Done
 - Community Answered
+
+### RAG
+
+![Schema du RAG](./doc/img/schema_rag.png)
 
 ### Questions pour la démo
 ___

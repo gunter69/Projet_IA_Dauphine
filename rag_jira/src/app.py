@@ -84,7 +84,7 @@ Your answer will be concise and you will explain step by step how to solve the p
         })
 
 # User-provided prompt
-if prompt := st.chat_input(placeholder="Votre question", disabled=not HUGGINGFACEHUB_API_TOKEN):
+if prompt := st.chat_input(placeholder="Your question", disabled=not HUGGINGFACEHUB_API_TOKEN):
     st.session_state.messages.append({"role": "user", "content": prompt})
     with st.chat_message("user"):
         st.write(prompt)
@@ -101,7 +101,7 @@ if prompt := st.chat_input(placeholder="Votre question", disabled=not HUGGINGFAC
 # Generate a new response if last message is not from assistant
 if st.session_state.messages[-1]["role"] != "assistant":
     with st.chat_message("assistant"):
-        with st.spinner("Analyse des tickets JIRA..."):
+        with st.spinner("JIRA ticket analysis..."):
             response = generate_response(prompt, CONTEXTES)
             st.write(response)
     message = {"role": "assistant", "content": response}
