@@ -8,7 +8,7 @@
   - [🛠️ Exécution en local](#️-exécution-en-local)
     - [✅ Prérequis](#-prérequis)
     - [📦 Installation des dépendances](#-installation-des-dépendances)
-  - [🚀 Utilisation](#-utilisation)
+  - [🚀 Méthodologie](#-méthodologie)
     - [Filtrage des tickets JIRA](#filtrage-des-tickets-jira)
       - [Type des issues](#type-des-issues)
       - [Status des issues](#status-des-issues)
@@ -103,6 +103,8 @@ streamlit run src/app.py
 
 L'application est disponible [ici](http://localhost:8501/).
 
+![Application ChatBot](./doc/img/application.png)
+
 ### ✅ Prérequis
 
 - **Langage :** Python
@@ -127,7 +129,7 @@ L'application est disponible [ici](http://localhost:8501/).
   pip install -e '.[dev]'
   ```
 
-## 🚀 Utilisation
+## 🚀 Méthodologie
 
 ### Filtrage des tickets JIRA
 
