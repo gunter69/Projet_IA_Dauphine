@@ -122,11 +122,11 @@ L'application est disponible [ici](http://localhost:8501/).
   python -m venv venv
   ```
 
-- Activer l'environnement virtuel avec `source venv/bin/activate` pour linux ou `venv\Scripts\activate` pour windows.
+- Activer l'environnement virtuel avec `source venv/bin/activate` pour linux ou `.\venv\Scripts\activate` pour windows.
 
 - Installer les dépendances du package `rag_jira`.
   ```console
-  pip install -e '.[dev]'
+  pip install -e .
   ```
 
 ## 🚀 Méthodologie

@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "rag_jira"
 version = "0.1.0"
-requires-python = ">=3.7,<4.0"
+requires-python = ">=3.10,<4.0"
 description = "Mise en place d'un RAG pour l'analyse de tickets JIRA"
 authors = [
     { name="SARAZIN Antoine", email="antoine.sarazin@cgi.com" },
@@ -19,11 +19,8 @@ dependencies = [
     "SQLAlchemy==2.0.31",
     "pandas==2.2.2",
     "langchain-community==0.2.0",
-    "matplotlib==3.9.1",
+    "matplotlib==3.9.2",
     "streamlit==1.37.0",
-    "hugchat==0.4.10",
-    "langchain-chroma==0.1.2",
-    "pysqlite3-binary==0.5.3",
     "torch==2.4.0",
     "sentence-transformers==3.0.1",
     "redis==5.0.8",
