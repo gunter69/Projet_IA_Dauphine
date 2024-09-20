@@ -13,6 +13,7 @@
       - [Type des issues](#type-des-issues)
       - [Status des issues](#status-des-issues)
       - [Resolution des issues](#resolution-des-issues)
+      - [Dataset Final](#dataset-final)
     - [RAG](#rag)
     - [Questions pour la démo](#questions-pour-la-démo)
   - [📚 Liens utiles](#-liens-utiles)
@@ -170,6 +171,99 @@ Les types de résolution que nous traîtons sont :
 - Fixed
 - Done
 - Community Answered
+
+#### Dataset Final
+
+- *Nombre d'issues :* 14243
+- *Nombe de features :* 8
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>ID</th>
+      <th>Title</th>
+      <th>Description</th>
+      <th>Type</th>
+      <th>Status</th>
+      <th>Resolution</th>
+      <th>Last_Updated</th>
+      <th>Comment</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>460398</td>
+      <td>"libunwind fails to build with GCC &gt;=10.2"</td>
+      <td>"In the newer GCC version, C globals are now n...</td>
+      <td>Bug</td>
+      <td>Closed</td>
+      <td>Fixed</td>
+      <td>2020-10-21 02:03:04</td>
+      <td>Author:{'name': '&lt;USER&gt;, 'email': '&lt;EMAIL&gt;', '...</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>460409</td>
+      <td>"Fix 3-way compare for ArraySet in SBE"</td>
+      <td></td>
+      <td>Bug</td>
+      <td>Closed</td>
+      <td>Fixed</td>
+      <td>2020-10-21 07:29:02</td>
+      <td>Author:{'name': '&lt;USER&gt;, 'email': '&lt;EMAIL&gt;', '...</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>460418</td>
+      <td>"'arrayEq()' undefined  in tenant_migration_no...</td>
+      <td>"Load this  file ""jstests/aggregation/extras/...</td>
+      <td>Bug</td>
+      <td>Closed</td>
+      <td>Fixed</td>
+      <td>2020-10-20 18:41:40</td>
+      <td>Author:{'name': 'XueruiFa', 'email': '&lt;EMAIL&gt;'...</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>460449</td>
+      <td>"BSONElement::_binDataVector incorrect bindata...</td>
+      <td>"I could be wrong, but I think {{BSONElement::...</td>
+      <td>Bug</td>
+      <td>Closed</td>
+      <td>Fixed</td>
+      <td>2020-10-20 02:06:58</td>
+      <td>CR https://mongodbcr.appspot.com/693030002/, D...</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>460450</td>
+      <td>"BSONElement::toString must account for negati...</td>
+      <td>"SERVER-43909 changed {{toHex(char*,int)}} to ...</td>
+      <td>Bug</td>
+      <td>Closed</td>
+      <td>Fixed</td>
+      <td>2020-10-19 17:51:55</td>
+      <td>\r\nCR https://mongodbcr.appspot.com/687240002...</td>
+    </tr>
+  </tbody>
+</table>
+</div>
 
 ### RAG
 
