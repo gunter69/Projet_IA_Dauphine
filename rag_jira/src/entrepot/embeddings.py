@@ -23,4 +23,4 @@ class EntrepotEmbeddings:
 
     def recherche_embeddings(self, query: str) -> List[Document]:
         """Recherche des documents dans l'entrepôt"""
-        return self.client_redis.similarity_search(query=query, k=3)
+        return self.client_redis.similarity_search(query=query, k=1)

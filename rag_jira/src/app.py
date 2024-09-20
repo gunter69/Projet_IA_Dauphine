@@ -24,11 +24,11 @@ with st.sidebar:
     else:
         st.success("Your HuggingFace api token has been taken into account! ", icon='✅')
         ## Configuration LLM
-        MODEL = "mistralai/Mistral-7B-Instruct-v0.2"
+        MODEL = "meta-llama/Meta-Llama-3-8B-Instruct"
         llm = HuggingFaceEndpoint(
             repo_id=MODEL,
-            max_length=128,
-            temperature=0.5,
+            max_new_tokens=1024,
+            temperature=0.01,
             huggingfacehub_api_token=HUGGINGFACEHUB_API_TOKEN,
         )
 
@@ -73,10 +73,14 @@ def generate_response(prompt_input, context):
 # Pour répondre tu dois t'aider du contexte suivant : {context}"""
     template = """MongoDB Enterprise Server is the commercial edition of MongoDB, available as part of the MongoDB Enterprise Advanced subscription.
 You are a conversational assistant solving issues on MongoDB Enterprise Server.
-Answer the question: {prompt_input}
-Using the following context: {context}
-Your answer will be concise and you will explain step by step how to solve the problem."""
+Answer the issue : {prompt_input}
+Using the following context between ===.
+===
+{context}
+===
+Your answer will be concise and you will explain step by step how to solve this issue."""
     prompt_temp = PromptTemplate.from_template(template)
+    print(f"Prompt : {template.format(prompt_input=prompt_input, context=context)}")
     llm_chain = prompt_temp | llm
     return llm_chain.invoke({
             "prompt_input": prompt_input,
@@ -89,20 +93,25 @@ if prompt := st.chat_input(placeholder="Your question", disabled=not HUGGINGFACE
     with st.chat_message("user"):
         st.write(prompt)
 
+    print("Recherche embeddings.")
     documents = service_indexation.entrepot_embeddings.recherche_embeddings(prompt)
 
+    print("Construction contexte.")
     CONTEXTES = ""
-    for document in documents:
-        CONTEXTES += document.metadata["title"]
-        CONTEXTES += "\n"
-        CONTEXTES += document.metadata["comment"]
-        CONTEXTES += "\n\n"
+    for i, document in enumerate(documents):
+        CONTEXTES += f'Issue title : {document.metadata["title"]}\n'
+        if i == len(documents)-1:
+            CONTEXTES += f'Comments on the issue : \n{document.metadata["comment"]}'
+        else:
+            CONTEXTES += f'Comments on the issue : \n{document.metadata["comment"]}\n\n'
 
 # Generate a new response if last message is not from assistant
 if st.session_state.messages[-1]["role"] != "assistant":
     with st.chat_message("assistant"):
         with st.spinner("JIRA ticket analysis..."):
+            print("Appel au LLM.")
             response = generate_response(prompt, CONTEXTES)
+            print("Appel terminé.")
             st.write(response)
     message = {"role": "assistant", "content": response}
     st.session_state.messages.append(message)

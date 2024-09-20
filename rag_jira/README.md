@@ -46,7 +46,6 @@ rag_jira
 │   │    ├─ __init__.py
 │   │    ├─ embeddings.py
 │   │    ├─ jira_issues.py
-│   │    ├─ llm_models.py
 │   │    └─ redis_schema.yaml
 │   ├─ service
 │   │    ├─ __init__.py
@@ -147,7 +146,7 @@ Informations sur le projet utilisé :
 - Description : MongoDB Enterprise Server est l'édition commerciale de MongoDB, disponible dans le cadre de l'abonnement MongoDB Enterprise Advanced.
 
 
-Pour savoir quels tickets jira vont être indexés dans notre base Redis, nous avons fait une [analyse du jeu de données TAWOS](./xp/analyse.ipynb). Les tickets jira qui serviront de base de connaissance pour notre RAG sont stockés dans un fichier csv.
+Pour savoir quels tickets jira vont être indexés dans notre base Redis, nous avons fait une [analyse du jeu de données TAWOS](./xp/analyse.ipynb). Les tickets jira qui serviront de base de connaissance pour notre RAG sont stockés dans un fichier csv, que vous pouvez dézipper dans le dossier `./rag_jira/xp/`.
 
 #### Type des issues
 
@@ -179,35 +178,18 @@ Les types de résolution que nous traîtons sont :
 ### Questions pour la démo
 ___
 
-**Original message :** When specifying a query for the map-reduce job, it fails. Without query it works flawlessly, unfortunately without the query it runs miserably slow on our dataset.  I am simply aggregating the records based on one of the <USER> and filter them with the query based on a 2d index. It fails. Now I'm working with a workaround to filter the records in the map() function, which obviously sucks.  I have brought to you a full step-by-step reproduction guide. It seems there is no such problem on a single instance of mongodb, as well as with a smaller dataset.
+**Issue** :
+![issue1](./doc/img/issue1.png)
 
-**Reformulation :** Why does specifying a query for the map-reduce job fail? Without the query, it works perfectly, but it's extremely slow on our dataset. I'm simply aggregating records based on one of the and filtering them with a 2D index-based query. This fails. Currently, I'm using a workaround to filter records in the map() function, which is far from ideal. I've prepared a step-by-step guide to reproduce the issue. This problem doesn't occur on a single MongoDB instance or with smaller datasets.
-
-**La réponse doit contenir :** I was able to workaround this by using a 2dsphere rather than a 2d index.
+**Question** : I have a map-reduce job that aggregates records and filters them with a query based on a 2d index that fails.
 ___
 
-**Original message :** The {{update_test_lifecycle.py}} script fetches the test history in multiple threads.  In these threads the code calls the test_failures module which uses the {{datetime.strptime()}} method.  As filed in https://bugs.python.org/issue7980, that method does not import _strptime.py in a thread safe way.  This can lead to the following error: {{AttributeError: 'module' object has no attribute '_strptime'}}.    We need to implement a workaround: either calling the {{strptime()}} method or importing the {{_strptime}} module explicitly before starting the threads.
+**Issue** :
+![issue2](./doc/img/issue2.png)
 
-**Reformulation :** How can we work around the thread safety issue related to using the {{datetime.strptime()}} method in the {{update_test_lifecycle.py}} script, given that this script fetches test history using multiple threads and this can lead to an {{AttributeError: 'module' object has no attribute '_strptime'}} as mentioned in https://bugs.python.org/issue7980? Should we explicitly call the {{strptime()}} method or import the {{_strptime}} module before starting the threads to avoid this error?
-
-**La réponse doit contenir :** Resolved by removing the use of strptime() from {{test_failures.py}}
+**Question** : The update_test_lifecycle.py script returns the following error: AttributeError : the 'module' object has no '_strptime' attribute
 ___
 
-I've created a collection with 100k entries like:  {code} { a: <int>, b: <int>, c: <int>, txt: <5k string> } {code}  And query with:  {code} > db.foo.find({a: {$lt: 32065}, b: 23}) {code}  Explain shows this:  {code} {  ""cursor"" : ""BasicCursor"",  ""nscanned"" : 100000,  ""nscannedObjects"" : 100000,  ""n"" : 211,  ""millis"" : 140,  ""nYields"" : 0,  ""nChunkSkips"" : 0,  ""isMultiKey"" : false,  ""indexOnly"" : false,  ""indexBounds"" : {     } } {code}  But system.profile shows this:  {code} {  ""ts"" : ISODate(""2011-09-20T17:25:19.664Z""),  ""op"" : ""query"",  ""ns"" : ""test.foo"",  ""query"" : {   ""query"" : {    ""a"" : {     ""$lt"" : 32065    },    ""b"" : 23   },   ""$explain"" : true  },  ""nscanned"" : 100000,  ""nreturned"" : 1,  ""responseLength"" : 297,  ""millis"" : 0,  ""client"" : ""127.0.0.1"",  ""user"" : """" } {code}  With profiling level set to 1, the output in system.profile reflects the correct millis. The profile output in 1.8.3 is correct:  {code} {         ""ts"" : ISODate(""2011-09-20T17:24:37.464Z""),         ""info"" : ""query example.bigdocs reslen:313 nscanned:100000  \\nquery: { query: { a: { $lt: 32065.0 }, b: 23.0 }, $explain: true }  nreturned:1 bytes:297"",         ""millis"" : 56 } {code}  (Note that this behavior is true with or without .explain(), I only used that to find out the actual millis to execute the query)
-
-**Reformulation :** How can I create a collection with 100,000 entries of the type { a: <int>, b: <int>, c: <int>, txt: <5k string> }, and query this collection with db.foo.find({a: {$lt: 32065}, b: 23}) while obtaining consistent results between the query explanation (explain) and the system profiling (system.profile), given that the profiling level is set to 1?
-
-**La réponse doit contenir :** {code}
-db.setProfilingLevel(2)
-{code}
-
-use:
-
-{code}
-db.runCommand({profile: 1, slowms: 0})
-{code}
-
-___
 
 ## 📚 Liens utiles
 

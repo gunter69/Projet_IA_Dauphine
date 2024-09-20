@@ -2,7 +2,6 @@
 Module de service d'indexation
 """
 import csv
-from os import name
 from typing import List
 
 from langchain_core.documents import Document
