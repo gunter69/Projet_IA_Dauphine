@@ -23,6 +23,10 @@
 
 Ce projet propose une application chatbot avec RAG pour l'analyse et la résolution de tickets JIRA.
 
+<u>**Objectif :**</u>
+- Capitaliser sur l'historique des tickets JIRA afin d'optimiser le traitement des tickets déjà résolus.
+- Développer une application intelligente capable de suggérer des solutions basées sur cette capitalisation.
+
 Ce projet est basé sur le jeu de données [TAWOS](https://rdr.ucl.ac.uk/articles/dataset/The_TAWOS_dataset/21308124) (**T**awosi **A**gile **W**eb-based **O**penSource) datant d'ocotbre 2020.
 - Ce dataset regroupe des données provenant de 13 référentiels open source différents (Apache, Atlassian, MongoDB, Spring, ...).
 - Tous ces référentiels utilisent JIRA comme plateforme de gestion des problèmes.

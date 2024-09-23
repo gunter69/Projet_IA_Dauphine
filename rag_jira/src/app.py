@@ -58,7 +58,7 @@ if "messages" not in st.session_state.keys():
     ]
 
 if HUGGINGFACEHUB_API_TOKEN == '':
-    st.warning("Please enter your HuggingFace api token!🤗 !", icon='⚠️')
+    st.warning("Please enter your HuggingFace api token 🤗 !", icon='⚠️')
 else:
     for message in st.session_state.messages:
         with st.chat_message(message["role"]):
